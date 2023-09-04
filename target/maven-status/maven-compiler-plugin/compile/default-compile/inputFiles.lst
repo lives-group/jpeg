@@ -1,0 +1,16 @@
+D:\Users\lopes\jpeg\RPeg\src\main\java\jpeg\State.java
+D:\Users\lopes\jpeg\RPeg\src\main\java\jpeg\IChar.java
+D:\Users\lopes\jpeg\RPeg\src\main\java\jpeg\IChoice.java
+D:\Users\lopes\jpeg\RPeg\src\main\java\jpeg\Capture.java
+D:\Users\lopes\jpeg\RPeg\src\main\java\jpeg\ICommit.java
+D:\Users\lopes\jpeg\RPeg\src\main\java\jpeg\Instruction.java
+D:\Users\lopes\jpeg\RPeg\src\main\java\jpeg\RPeg.java
+D:\Users\lopes\jpeg\RPeg\src\main\java\jpeg\StackEntry.java
+D:\Users\lopes\jpeg\RPeg\src\main\java\jpeg\ICall.java
+D:\Users\lopes\jpeg\RPeg\src\main\java\jpeg\IChars.java
+D:\Users\lopes\jpeg\RPeg\src\main\java\jpeg\IHalt.java
+D:\Users\lopes\jpeg\RPeg\src\main\java\jpeg\IJump.java
+D:\Users\lopes\jpeg\RPeg\src\main\java\jpeg\IReturn.java
+D:\Users\lopes\jpeg\RPeg\src\main\java\jpeg\IAny.java
+D:\Users\lopes\jpeg\RPeg\src\main\java\jpeg\IFail.java
+D:\Users\lopes\jpeg\RPeg\src\main\java\jpeg\ICapture.java

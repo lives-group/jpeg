@@ -1,0 +1,16 @@
+jpeg\Capture.class
+jpeg\IAny.class
+jpeg\IJump.class
+jpeg\IReturn.class
+jpeg\ICall.class
+jpeg\Instruction.class
+jpeg\IFail.class
+jpeg\State.class
+jpeg\ICommit.class
+jpeg\IHalt.class
+jpeg\ICapture.class
+jpeg\IChar.class
+jpeg\IChars.class
+jpeg\IChoice.class
+jpeg\RPeg.class
+jpeg\StackEntry.class
