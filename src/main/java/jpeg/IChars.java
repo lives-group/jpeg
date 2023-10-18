@@ -6,6 +6,10 @@ public class IChars extends Instruction {
 
     private char start;
     private char end;
+    
+    public String toString(){
+        return "IChars " + start + "-" + end;
+    }
 
     public IChars(char c) {
         this.start = c;

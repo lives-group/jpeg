@@ -6,6 +6,9 @@
 package jpeg;
 
 public class IReturn extends Instruction{
+    
+    public IReturn() {
+    }
 
     @Override
     public void execute(State s, String input) {
@@ -15,6 +18,10 @@ public class IReturn extends Instruction{
         } else {
             throw new RuntimeException("unexpected Stack context");
         }
+    }
+    
+    public String toString(){
+        return "IReturn ";
     }
 
 }

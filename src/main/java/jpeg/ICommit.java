@@ -8,9 +8,29 @@ package jpeg;
 public class ICommit extends Instruction{
     
     private int l;
+    private String end;
+    
+    public String toString(){
+        return "ICommit " + (end == null ? (l + "") : end);
+    }
+    
+    public ICommit(String end){
+        this.end = end;
+        l = -1;
+    }
     
     public ICommit(int l){
         this.l = l;
+        end = null;
+    }
+    
+    public void mapJump(int l){
+        this.l = l;
+        end = null;
+    }
+    
+    public String getLabel(){
+        return end;
     }
 
     @Override

@@ -4,6 +4,10 @@ package jpeg;
 public class IChar extends Instruction {
 
     private char c;
+    
+    public String toString(){
+        return "IChar " + c;
+    }
 
     public IChar(char c) {
         this.c = c;

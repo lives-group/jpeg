@@ -1,6 +1,10 @@
 package jpeg;
 
 public class IAny extends Instruction {
+    
+    public String toString(){
+        return "IAny";
+    }
 
     @Override
     public void execute(State s, String input) {

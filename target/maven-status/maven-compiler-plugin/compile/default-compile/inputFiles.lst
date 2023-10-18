@@ -1,4 +1,6 @@
+D:\Users\lopes\jpeg\RPeg\src\main\java\jpeg\ExpressionScanner.java
 D:\Users\lopes\jpeg\RPeg\src\main\java\jpeg\State.java
+D:\Users\lopes\jpeg\RPeg\src\main\java\jpeg\Terminals.java
 D:\Users\lopes\jpeg\RPeg\src\main\java\jpeg\IChar.java
 D:\Users\lopes\jpeg\RPeg\src\main\java\jpeg\IChoice.java
 D:\Users\lopes\jpeg\RPeg\src\main\java\jpeg\Capture.java
@@ -11,6 +13,9 @@ D:\Users\lopes\jpeg\RPeg\src\main\java\jpeg\IChars.java
 D:\Users\lopes\jpeg\RPeg\src\main\java\jpeg\IHalt.java
 D:\Users\lopes\jpeg\RPeg\src\main\java\jpeg\IJump.java
 D:\Users\lopes\jpeg\RPeg\src\main\java\jpeg\IReturn.java
+D:\Users\lopes\jpeg\RPeg\src\main\java\jpeg\Parser.java
+D:\Users\lopes\jpeg\RPeg\src\main\java\jpeg\Token.java
 D:\Users\lopes\jpeg\RPeg\src\main\java\jpeg\IAny.java
 D:\Users\lopes\jpeg\RPeg\src\main\java\jpeg\IFail.java
+D:\Users\lopes\jpeg\RPeg\src\main\java\jpeg\ILabel.java
 D:\Users\lopes\jpeg\RPeg\src\main\java\jpeg\ICapture.java

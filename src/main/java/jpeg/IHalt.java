@@ -14,5 +14,9 @@ public class IHalt extends Instruction{
     public void execute(State s, String input) {
         s.halt();
     }
+    
+    public String toString(){
+        return "IHalt ";
+    }
 
 }

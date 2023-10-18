@@ -1,12 +1,12 @@
 package jpeg;
 
 import java.io.BufferedReader;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class RPeg {
 
@@ -14,10 +14,9 @@ public class RPeg {
     protected static ArrayList<Instruction> prog;
     protected static String input;
 
-    public RPeg(String input, ArrayList<Instruction> p) {
+    public RPeg() {
         s = new State(0, 0);
-        prog = p;
-        this.input = input;
+
     }
 
     public void execute() {
@@ -52,35 +51,47 @@ public class RPeg {
             System.err.println("Informe o caminho da gramatica e da entrada como argumento");
             return;
         }
-
-        RPegParser.parse(args[0], args[1]);
+        
+        
+        RPeg rpeg = new RPeg();
+        Parser p;
+        input = lerArquivoTexto(args[1]);
+        try {
+            p = new Parser(args[0]);
+            prog = p.parse();
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(RPeg.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        rpeg.execute();
+       
+        
     }
 
-    public void placaDeCarro(String input) {
-        ArrayList<Instruction> prog = new ArrayList<>();
+    public static void placaDeCarro(String input) {
+        prog = new ArrayList<>();
+        prog.add(new IChars('0', '9'));
         prog.add(new IChars('a', 'z'));
         prog.add(new IChars('a', 'z'));
-        prog.add(new IChars('a', 'z'));
         prog.add(new IChars('0', '9'));
         prog.add(new IChars('0', '9'));
         prog.add(new IChars('0', '9'));
         prog.add(new IChars('0', '9'));
-        RPeg rpeg = new RPeg(input, prog);
+        RPeg rpeg = new RPeg();
         rpeg.execute();
     }
 
     public void aOuB(String input) {
-        ArrayList prog = new ArrayList<Instruction>();
+        prog = new ArrayList<>();
         prog.add(new IChoice(2));
         prog.add(new IChar('a'));
         prog.add(new ICommit(2));
         prog.add(new IChar('b'));
-        RPeg rpeg = new RPeg(input, prog);
+        RPeg rpeg = new RPeg();
         rpeg.execute();
     }
 
     public void aB(String input) {
-        ArrayList<Instruction> prog = new ArrayList<>();
+        prog = new ArrayList<>();
         prog.add(new ICall(2));
         prog.add(new IJump(8));
         prog.add(new IChoice(3));
@@ -90,8 +101,26 @@ public class RPeg {
         prog.add(new IChar('b'));
         prog.add(new ICommit(2));
         prog.add(new IReturn());
-        RPeg rpeg = new RPeg(input, prog);
+        RPeg rpeg = new RPeg();
         rpeg.execute();
     }
+    
+    public static String lerArquivoTexto(String nomeArquivo) {
+        StringBuilder conteudo = new StringBuilder();
+        try {
+            BufferedReader br = new BufferedReader(new FileReader(nomeArquivo));
+            String linha;
+            while ((linha = br.readLine()) != null) {
+                conteudo.append(linha).append("\n");
+            }
+            br.close();
+            return conteudo.toString();
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+
 
 }
