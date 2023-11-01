@@ -14,7 +14,7 @@ public class IReturn extends Instruction{
     public void execute(State s, String input) {
         StackEntry stk = s.e.pop();
         if (stk.getI() == -1) {
-            s.p = stk.getP();
+           s.p = stk.getP();
         } else {
             throw new RuntimeException("unexpected Stack context");
         }

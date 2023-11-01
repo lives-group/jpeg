@@ -23,6 +23,7 @@ public class Terminals {
     static public final short COLON = 15;
     static public final short ASPAS = 16;
     static public final short CHARLIT = 17;
+    static public final short FAIL = 18;
 
     static public String terminalName(short n) {
         switch (n) {
@@ -62,6 +63,8 @@ public class Terminals {
                 return "'";
             case 17:
                 return "Character";
+            case 18:
+                return "Fail";
 
         }
         return "I don't Know !";

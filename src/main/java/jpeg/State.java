@@ -80,14 +80,6 @@ public class State {
         this.halt = true;
     }
 
-    /*public void rtrn() {
-        StackEntry stk = e.pop();
-        if (stk.getI() == -1) {
-            p = stk.getP();
-        } else {
-            throw new RuntimeException("unexpected Stack context");
-        }
-    }*/
     
     @Override
     public String toString(){

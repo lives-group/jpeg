@@ -4,6 +4,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map.Entry;
 
 class Parser {
 
@@ -14,7 +15,6 @@ class Parser {
     private ArrayList<Instruction> prog;
     private String grammar;
     private String a;
-    private String input;
 
     public Parser(String grammar) throws FileNotFoundException {
         scn = new ExpressionScanner(new FileReader(grammar));
@@ -23,7 +23,18 @@ class Parser {
         prog = new ArrayList<Instruction>();
         t = null;
         this.grammar = grammar;
-        this.input = input;
+    }
+
+    public void testLexer() {
+        try {
+            nxt();
+            while (!t.isEOF()) {
+                System.out.println(t.toString());
+                nxt();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public ArrayList<Instruction> parse() {
@@ -57,59 +68,63 @@ class Parser {
                         prog.add(parseHalt());
                         break;
                     case Terminals.ID:
-                        prog.add(parseLabel((String)t.getValue()));
+                        
+                        prog.add(parseLabel((String) t.getValue()));
+                        
+                        break;
+                    case Terminals.FAIL:
+                        prog.add(parseFail());
                         break;
                 }
 
                 t = scn.nextToken();
             }
-            
-            
-            
+
         } catch (Exception e) {
             e.printStackTrace();
         }
+        printLBTable();
         remapLabels();
         return prog;
     }
-    
-    private void remapLabels(){
+
+    private void remapLabels() {
         int i = 0;
-        while(i < prog.size()){
-            if(prog.get(i) instanceof ICall && 
-                    ((ICall) prog.get(i)).getLabel() != null){
-                ((ICall) prog.get(i)).mapJump(lb.get(((ICall) prog.get(i)).getLabel()) - i - 1);
-            } else if(prog.get(i) instanceof IJump &&
-                    ((IJump) prog.get(i)).getLabel() != null){
-                ((IJump) prog.get(i)).mapJump(lb.get(((IJump) prog.get(i)).getLabel()) - i - 1);
-            } else if(prog.get(i) instanceof ICommit &&
-                    ((ICommit) prog.get(i)).getLabel() != null){
-                ((ICommit) prog.get(i)).mapJump(lb.get(((ICommit) prog.get(i)).getLabel()) - i - 1);
-            } else if(prog.get(i) instanceof IChoice &&
-                    ((IChoice) prog.get(i)).getLabel() != null){
-                ((IChoice) prog.get(i)).mapJump(lb.get(((IChoice) prog.get(i)).getLabel()) - i - 1);
-            } else if(prog.get(i) instanceof ILabel){
+        while (i < prog.size()) {
+            if (prog.get(i) instanceof ICall
+                    && ((ICall) prog.get(i)).getLabel() != null) {
+                ((ICall) prog.get(i)).mapJump(lb.get(((ICall) prog.get(i)).getLabel()) - i);
+            } else if (prog.get(i) instanceof IJump
+                    && ((IJump) prog.get(i)).getLabel() != null) {
+                ((IJump) prog.get(i)).mapJump(lb.get(((IJump) prog.get(i)).getLabel()) - i);
+            } else if (prog.get(i) instanceof ICommit
+                    && ((ICommit) prog.get(i)).getLabel() != null) {
+                ((ICommit) prog.get(i)).mapJump(lb.get(((ICommit) prog.get(i)).getLabel()) - i);
+            } else if (prog.get(i) instanceof IChoice
+                    && ((IChoice) prog.get(i)).getLabel() != null) {
+                
+                ((IChoice) prog.get(i)).mapJump(lb.get(((IChoice) prog.get(i)).getLabel()) - i);
+                
+            } else if (prog.get(i) instanceof ILabel) {
                 prog.remove(i);
             } else {
                 i++;
             }
-            
+
         }
     }
 
-    public IChar parseChar() {
+    private boolean chr() {
+        return t.getTer() == Terminals.CHARLIT;
+    }
+
+    private IChar parseChar() {
         char a;
         nxt();
-        if (t.getTer() == Terminals.ASPAS) {
-            nxt();
-            if (t.getTer() == Terminals.CHARLIT) {
-                a = ((String) (t.getValue())).charAt(0);
-                nxt();
-                if (t.getTer() == Terminals.ASPAS) {
-                    count++;
-                    return new IChar(a);
-                }
-            }
+        if (chr()) {
+            a = ((Character) (t.getValue()));
+            count++;
+            return new IChar(a);
         }
         return null;
     }
@@ -117,25 +132,13 @@ class Parser {
     public IChars parseChars() {
         char a[] = new char[2];
         nxt();
-        if (t.getTer() == Terminals.ASPAS) {
+        if (chr()) {
+            a[0] = ((Character) (t.getValue()));
             nxt();
-            if (t.getTer() == Terminals.CHARLIT) {
-                a[0] = ((String) (t.getValue())).charAt(0);
-                nxt();
-                if (t.getTer() == Terminals.ASPAS) {
-                    nxt();
-                    if (t.getTer() == Terminals.ASPAS) {
-                        nxt();
-                        if (t.getTer() == Terminals.CHARLIT) {
-                            a[1] = ((String) (t.getValue())).charAt(0);
-                            nxt();
-                            if (t.getTer() == Terminals.ASPAS) {
-                                count++;
-                                return new IChars(a[0], a[1]);
-                            }
-                        }
-                    }
-                }
+            if (chr()) {
+                a[1] = ((Character) (t.getValue()));
+                count++;
+                return new IChars(a[0], a[1]);
             }
         }
         return null;
@@ -148,7 +151,7 @@ class Parser {
             count++;
             return new ICall(a);
         }
-       return null;
+        return null;
     }
 
     public IChoice parseChoice() {
@@ -168,9 +171,9 @@ class Parser {
             count++;
             return new IJump(a);
         }
-        
-       return null;
-        
+
+        return null;
+
     }
 
     public ICommit parseCommit() {
@@ -179,7 +182,7 @@ class Parser {
             a = (String) t.getValue();
             count++;
             return new ICommit(a);
-            
+
         }
         return null;
 
@@ -188,6 +191,11 @@ class Parser {
     public IReturn parseReturn() {
         count++;
         return new IReturn();
+    }
+    
+    public IFail parseFail(){
+        count++;
+        return new IFail();
     }
 
     public IHalt parseHalt() {
@@ -198,7 +206,7 @@ class Parser {
     public ILabel parseLabel(String l) {
         nxt();
         if (t.getTer() == Terminals.COLON) {
-            lb.put(l, count + 1);
+            lb.put(l, count);
             return new ILabel(l);
         }
         return null;
@@ -210,6 +218,15 @@ class Parser {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    public void printLBTable() {
+        String s =  "----Labels ----- \n";
+        for (Entry<String, Integer> e : lb.entrySet()) {
+            s +=  " " + e.getKey() + " |-> " + e.getValue().toString() + "\n";
+        }
+        System.out.println(s);
+        
     }
 
 }

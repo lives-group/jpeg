@@ -56,14 +56,22 @@ public class RPeg {
         RPeg rpeg = new RPeg();
         Parser p;
         input = lerArquivoTexto(args[1]);
+       
         try {
             p = new Parser(args[0]);
+            //p.testLexer();
+            
             prog = p.parse();
+            p.printLBTable();
         } catch (FileNotFoundException ex) {
             Logger.getLogger(RPeg.class.getName()).log(Level.SEVERE, null, ex);
         }
+        rpeg.printProgram();
         rpeg.execute();
-       
+       /*input = "8.f";
+        aOuB();*/
+        /*input = "aab";
+        aB();*/
         
     }
 
@@ -80,17 +88,42 @@ public class RPeg {
         rpeg.execute();
     }
 
-    public void aOuB(String input) {
+    /*public static void aOuB() {
         prog = new ArrayList<>();
-        prog.add(new IChoice(2));
-        prog.add(new IChar('a'));
+        prog.add(new ICall(2));
+        prog.add(new IJump(8));
+        prog.add(new IChoice(3));
+        prog.add(new IChars('0','9'));
+        prog.add(new ICall(-2));
+        prog.add(new ICommit(6));
+        prog.add(new IChoice(7));
+        prog.add(new IChar('.'));
+            prog.add(new IChoice(3));
+            prog.add(new IChars('0','9'));
+            prog.add(new ICall(-2));
+            prog.add(new ICommit(2));
         prog.add(new ICommit(2));
-        prog.add(new IChar('b'));
+        prog.add(new IReturn());
+        RPeg rpeg = new RPeg();
+        rpeg.execute();
+    }*/
+    
+    public static void aOuB() {
+        prog = new ArrayList<>();
+        prog.add(new ICall(2));
+        prog.add(new IJump(8));
+        prog.add(new IChoice(3));
+        prog.add(new IChars('0','9'));
+        prog.add(new ICall(-2));
+        prog.add(new ICommit(3));
+        prog.add(new IChar('.'));
+        prog.add(new ICommit(2));
+        prog.add(new IReturn());
         RPeg rpeg = new RPeg();
         rpeg.execute();
     }
 
-    public void aB(String input) {
+    public static void aB() {
         prog = new ArrayList<>();
         prog.add(new ICall(2));
         prog.add(new IJump(8));
@@ -120,7 +153,14 @@ public class RPeg {
             return null;
         }
     }
-
+    
+    public void printProgram(){
+        int j = 0;
+        for(Instruction i : prog){
+            System.out.println(j++ +" :" + i.toString());
+            
+        }
+    }
 
 
 }

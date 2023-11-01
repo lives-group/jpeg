@@ -2,25 +2,25 @@ package jpeg;
 
 public class IChoice extends Instruction {
 
-    private int l;
+    private int lb;
     private String end;
     
     public String toString(){
-        return "IChoice " + (end == null ? (l + "") : end);
+        return "IChoice " + (end == null ? (lb + "") : end);
     }
     
     public IChoice(String end){
         this.end = end;
-        this.l = -1;
+        this.lb = -1;
     }
 
     public IChoice(int l) {
-        this.l = l;
+        this.lb = l;
         this.end = null;
     }
     
     public void mapJump(int l){
-        this.l = l;
+        this.lb = l;
         end = null;
     }
     
@@ -30,8 +30,9 @@ public class IChoice extends Instruction {
 
     @Override
     public void execute(State s, String input) {
+        StackEntry stk = new StackEntry(s.getP() + lb, s.getI(), s.c);
         s.setP(s.getP() + 1);
-        StackEntry stk = new StackEntry(s.getP() + l, s.getI(), s.c);
+
         s.getE().push(stk);
     }
 }
